@@ -1,0 +1,12 @@
+<h1>Validate your email address</h1>
+<p>
+    Hello,
+    <br>
+    Please validate your newsletter subscription by clicking on the link below:
+    <br>
+    <a href="{{ url('newsletter_confirm', {'token': token}) }}">
+        {{ url('newsletter_confirm', {'token': token}) }}
+    </a>
+    <br>
+    This link will expire in 3 hours.
+</p>

@@ -5,3 +5,10 @@ newsletter_subscribe:
     methods: [POST]
     defaults:
         _route: newsletter_subscribe
+
+# The route for confirming newsletter subscriptions
+newsletter_confirm:
+    path: /newsletter/confirm
+    controller: App\Bundle\NewsletterBundle\Controller\NewsletterController::confirm
+    defaults:
+        _route: newsletter_confirm
