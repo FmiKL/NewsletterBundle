@@ -1,0 +1,7 @@
+# The route for handling newsletter subscription requests
+newsletter_subscribe:
+    path: /newsletter/subscribe
+    controller: App\Bundle\NewsletterBundle\Controller\NewsletterController::subscribe
+    methods: [POST]
+    defaults:
+        _route: newsletter_subscribe
