@@ -12,3 +12,11 @@ newsletter_confirm:
     controller: App\Bundle\NewsletterBundle\Controller\NewsletterController::confirm
     defaults:
         _route: newsletter_confirm
+
+# The route for sending newsletters to all subscribed users
+newsletter_send:
+    path: /admin/newsletter/send
+    controller: App\Bundle\NewsletterBundle\Controller\NewsletterController::send
+    methods: [POST]
+    defaults:
+        _route: newsletter_send

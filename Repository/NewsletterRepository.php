@@ -20,4 +20,18 @@ class NewsletterRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Newsletter::class);
     }
+
+    /**
+     * Retrieve all subscribers who have confirmed their subscription.
+     *
+     * @return Newsletter[]
+     */
+    public function findAllConfirmedSubscribers(): array
+    {
+        return $this->createQueryBuilder('n')
+            ->where('n.is_confirmed = :confirmed')
+            ->setParameter('confirmed', true)
+            ->getQuery()
+            ->getResult();
+    }
 }
