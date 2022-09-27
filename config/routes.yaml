@@ -20,3 +20,10 @@ newsletter_send:
     methods: [POST]
     defaults:
         _route: newsletter_send
+
+# The route for handling newsletter unsubscription requests
+newsletter_unsubscribe:
+    path: /newsletter/unsubscribe
+    controller: App\Bundle\NewsletterBundle\Controller\NewsletterController::unsubscribe
+    defaults:
+        _route: newsletter_unsubscribe
