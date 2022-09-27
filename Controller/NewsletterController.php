@@ -8,6 +8,7 @@ use App\Bundle\NewsletterBundle\Service\EmailValidatorService;
 use App\Bundle\NewsletterBundle\Service\MailerService;
 use App\Bundle\NewsletterBundle\Service\NewsletterService;
 use App\Bundle\NewsletterBundle\Service\SubscriptionService;
+use App\Bundle\NewsletterBundle\Service\UnsubscribeService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -138,5 +139,30 @@ class NewsletterController extends AbstractController
         }
 
         return $this->redirectToRoute('admin_dashboard');
+    }
+
+    /**
+     * Unsubscribes the user using a token.
+     *
+     * @param Request $request
+     * @param UnsubscribeService $unsubscribeService
+     * @return RedirectResponse
+     */
+    public function unsubscribe(
+        Request $request,
+        UnsubscribeService $unsubscribeService
+    ): RedirectResponse
+    {
+        $token = $request->query->get('token');
+        $isUnsubscribed = $unsubscribeService->remove($token);
+    
+        // Handle unsubscription result
+        if ($isUnsubscribed) {
+            $this->addFlash('success', 'Your email address has been successfully removed.');
+        } else {
+            $this->addFlash('error', 'This token is no longer valid.');
+        }
+    
+        return $this->redirectToRoute('site_home');
     }
 }

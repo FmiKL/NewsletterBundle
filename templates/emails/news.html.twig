@@ -4,3 +4,8 @@
     <br>
     {{ message }}
 </p>
+<p>
+    You can
+    <a href="{{ url('newsletter_unsubscribe', {'token': token}) }}">unsubscribe</a>
+    from the newsletter at any time.
+</p>
