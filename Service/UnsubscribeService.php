@@ -11,26 +11,13 @@ use Doctrine\ORM\EntityManagerInterface;
 class UnsubscribeService
 {
     /**
-     * @var NewsletterRepository
-     */
-    private $newsletterRepository;
-
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-
-    /**
      * @param NewsletterRepository $newsletterRepository
      * @param EntityManagerInterface $entityManager
      */
     public function __construct(
-        NewsletterRepository $newsletterRepository,
-        EntityManagerInterface $entityManager
-    ) {
-        $this->newsletterRepository = $newsletterRepository;
-        $this->entityManager = $entityManager;
-    }
+        private NewsletterRepository $newsletterRepository,
+        private EntityManagerInterface $entityManager
+    ){}
 
     /**
      * Remove a newsletter subscription by a given token.
