@@ -7,38 +7,26 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass=NewsletterRepository::class)
- * @UniqueEntity(fields={"token", "email"})
- */
+#[ORM\Entity(repositoryClass: NewsletterRepository::class)]
+#[UniqueEntity(fields: ['token', 'email'])]
 class Newsletter
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="datetime_immutable", options={"default"="CURRENT_TIMESTAMP"})
-     */
+    #[ORM\Column(type: 'datetime_immutable', options: ['default' => 'CURRENT_TIMESTAMP'])]
     private $created_at;
 
-    /**
-     * @ORM\Column(type="string", length=255, unique=true)
-     * @Assert\Email
-     */
+    #[ORM\Column(length: 255, unique: true)]
+    #[Assert\Email]
     private ?string $email = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true, unique=true)
-     */
+    #[ORM\Column(length: 255, nullable: true, unique: true)]
     private ?string $token = null;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column]
     private ?bool $is_confirmed = null;
 
     public function __construct()
@@ -69,7 +57,7 @@ class Newsletter
         return $this->email;
     }
 
-    public function setEmail(string $email): self
+    public function setEmail(string $email): static
     {
         $this->email = $email;
 
@@ -81,7 +69,7 @@ class Newsletter
         return $this->token;
     }
 
-    public function setToken(?string $token): self
+    public function setToken(?string $token): static
     {
         $this->token = $token;
 
@@ -93,7 +81,7 @@ class Newsletter
         return $this->is_confirmed;
     }
 
-    public function setIsConfirmed(bool $is_confirmed): self
+    public function setIsConfirmed(bool $is_confirmed): static
     {
         $this->is_confirmed = $is_confirmed;
 
