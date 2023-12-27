@@ -10,26 +10,13 @@ use App\Bundle\NewsletterBundle\Repository\NewsletterRepository;
 class NewsletterService
 {
     /**
-     * @var MailerService
-     */
-    private $mailerService;
-
-    /**
-     * @var NewsletterRepository
-     */
-    private $newsletterRepository;
-
-    /**
      * @param MailerService $mailerService
      * @param NewsletterRepository $newsletterRepository
      */
     public function __construct(
-        MailerService $mailerService,
-        NewsletterRepository $newsletterRepository
-    ) {
-        $this->mailerService = $mailerService;
-        $this->newsletterRepository = $newsletterRepository;
-    }
+        private MailerService $mailerService,
+        private NewsletterRepository $newsletterRepository
+    ){}
 
     /**
      * Send a newsletter to all confirmed subscribers.

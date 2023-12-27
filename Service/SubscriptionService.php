@@ -14,34 +14,15 @@ use Psr\Log\LoggerInterface;
 class SubscriptionService
 {
     /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-
-    /**
-     * @var NewsletterRepository
-     */
-    private $newsletterRepository;
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
-
-    /**
      * @param EntityManagerInterface $entityManager
      * @param NewsletterRepository $newsletterRepository
      * @param LoggerInterface $logger
      */
     public function __construct(
-        EntityManagerInterface $entityManager,
-        NewsletterRepository $newsletterRepository,
-        LoggerInterface $logger
-    ) {
-        $this->entityManager = $entityManager;
-        $this->newsletterRepository = $newsletterRepository;
-        $this->logger = $logger;
-    }
+        private EntityManagerInterface $entityManager,
+        private NewsletterRepository $newsletterRepository,
+        private LoggerInterface $logger
+    ){}
 
     /**
      * Find and return a newsletter subscription by email address.

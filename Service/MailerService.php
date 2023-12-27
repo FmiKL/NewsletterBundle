@@ -25,17 +25,11 @@ class MailerService
     private const NEWS_TEMPLATE_PATH = '@NewsletterBundle/emails/news.html.twig';
 
     /**
-     * @var MailerInterface
-     */
-    private $mailer;
-
-    /**
      * @param MailerInterface $mailer
      */
-    public function __construct(MailerInterface $mailer)
-    {
-        $this->mailer = $mailer;
-    }
+    public function __construct(
+        private MailerInterface $mailer
+    ){}
 
     /**
      * Send a newsletter email.
