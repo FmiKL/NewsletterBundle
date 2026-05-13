@@ -36,13 +36,20 @@ class NewsletterService
         $subscribers = $this->newsletterRepository->findAllConfirmedSubscribers();
 
         foreach ($subscribers as $subscriber) {
+            $email = $subscriber->getEmail();
+            $token = $subscriber->getToken();
+
+            if (!$email || !$token) {
+                continue;
+            }
+
             $this->mailerService->sendNewsletter(
                 $contactEmail,
-                $subscriber->getEmail(),
+                $email,
                 $subject,
                 $title,
                 $message,
-                $subscriber->getToken()
+                $token
             );
         }
     }

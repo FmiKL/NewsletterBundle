@@ -2,7 +2,7 @@
 
 namespace App\Bundle\NewsletterBundle\Entity;
 
-use App\Repository\NewsletterRepository;
+use App\Bundle\NewsletterBundle\Repository\NewsletterRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -17,7 +17,7 @@ class Newsletter
     private ?int $id = null;
 
     #[ORM\Column(type: 'datetime_immutable', options: ['default' => 'CURRENT_TIMESTAMP'])]
-    private $created_at;
+    private \DateTimeImmutable $created_at;
 
     #[ORM\Column(length: 255, unique: true)]
     #[Assert\Email]

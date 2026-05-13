@@ -3,6 +3,7 @@
 namespace App\Bundle\NewsletterBundle\Service;
 
 use App\Bundle\NewsletterBundle\Entity\Newsletter;
+use App\Bundle\NewsletterBundle\Exception\TokenCollisionException;
 use App\Bundle\NewsletterBundle\Repository\NewsletterRepository;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
@@ -40,9 +41,11 @@ class SubscriptionService
      *
      * @param string $email
      * @param string $token
-     * @return Newsletter|null
+     * @return Newsletter
+     *
+     * @throws TokenCollisionException
      */
-    public function subscribe(string $email, string $token): ?Newsletter
+    public function subscribe(string $email, string $token): Newsletter
     {
         $newsletter = new Newsletter();
         $newsletter->setEmail($email);
@@ -53,7 +56,7 @@ class SubscriptionService
             $this->entityManager->flush();
         } catch (UniqueConstraintViolationException $e) {
             $this->logger->error('Unique constraint violation', ['exception' => $e]);
-            return null;
+            throw new TokenCollisionException($e);
         }
 
         return $newsletter;

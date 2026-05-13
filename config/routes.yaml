@@ -3,27 +3,21 @@ newsletter_subscribe:
     path: /newsletter/subscribe
     controller: App\Bundle\NewsletterBundle\Controller\NewsletterController::subscribe
     methods: [POST]
-    defaults:
-        _route: newsletter_subscribe
 
 # The route for confirming newsletter subscriptions
 newsletter_confirm:
     path: /newsletter/confirm
     controller: App\Bundle\NewsletterBundle\Controller\NewsletterController::confirm
-    defaults:
-        _route: newsletter_confirm
+    methods: [GET]
 
 # The route for sending newsletters to all subscribed users
 newsletter_send:
     path: /admin/newsletter/send
     controller: App\Bundle\NewsletterBundle\Controller\NewsletterController::send
     methods: [POST]
-    defaults:
-        _route: newsletter_send
 
 # The route for handling newsletter unsubscription requests
 newsletter_unsubscribe:
     path: /newsletter/unsubscribe
     controller: App\Bundle\NewsletterBundle\Controller\NewsletterController::unsubscribe
-    defaults:
-        _route: newsletter_unsubscribe
+    methods: [GET]
