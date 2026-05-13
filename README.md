@@ -4,6 +4,7 @@ A simple newsletter bundle for Symfony applications.
 
 ## Compatibility
 
+- Symfony 6
 - Symfony 7.4 / 8.0
 
 ## Setup
