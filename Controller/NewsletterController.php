@@ -38,9 +38,9 @@ class NewsletterController extends AbstractController
     {
         $email = $request->request->get('semail');
         $referer = $request->headers->get('referer', $this->generateUrl('site_home'));
-        
+
         // Validate the provided email address
-        if (!$emailValidator->isValid($email)) {
+        if (!is_string($email) || !$emailValidator->isValid($email)) {
             $this->addFlash('error', 'Please provide a valid email address.');
             return $this->redirect($referer);
         }
@@ -51,9 +51,9 @@ class NewsletterController extends AbstractController
             // Handle cases where the email is registered but not confirmed
             if (!$existingNewsletter->getIsConfirmed()) {
                 $mailerService->sendSubscriptionConfirmation(
-                    $this->getParameter('contact_email'),
+                    (string) $this->getParameter('contact_email'),
                     $email,
-                    $existingNewsletter->getToken()
+                    (string) $existingNewsletter->getToken()
                 );
 
                 $this->addFlash('error', 'This email address is already registered! Check your email for confirmation.');
@@ -63,19 +63,19 @@ class NewsletterController extends AbstractController
 
             return $this->redirect($referer);
         }
-        
+
         // Create a new subscription and send confirmation email
         try {
-            $token = ByteString::fromRandom(55);
+            $token = (string) ByteString::fromRandom(55);
             $subscriptionService->subscribe($email, $token);
         } catch (TokenCollisionException $e) {
             $this->addFlash('error', 'The service is temporarily unavailable. Please try again later.');
             return $this->redirect($referer);
         }
-        
+
         // Send subscription confirmation email
         $mailerService->sendSubscriptionConfirmation(
-            $this->getParameter('contact_email'),
+            (string) $this->getParameter('contact_email'),
             $email,
             $token
         );
@@ -98,15 +98,21 @@ class NewsletterController extends AbstractController
     ): RedirectResponse
     {
         $token = $request->query->get('token');
+        if (!is_string($token) || '' === $token) {
+            $this->addFlash('error', 'This token is no longer valid.');
+
+            return $this->redirectToRoute('site_home');
+        }
+
         $isConfirmed = $confirmationService->confirm($token);
-    
+
         // Handle subscription confirmation result
         if ($isConfirmed) {
             $this->addFlash('success', 'Your email address has been successfully confirmed.');
         } else {
             $this->addFlash('error', 'This token is no longer valid.');
         }
-    
+
         return $this->redirectToRoute('site_home');
     }
 
@@ -125,12 +131,12 @@ class NewsletterController extends AbstractController
         try {
             // Send newsletter to all subscribers
             $newsletterService->sendToAll(
-                $this->getParameter('contact_email'),
-                $request->get('subject'),
-                $request->get('title'),
-                $request->get('message')
+                (string) $this->getParameter('contact_email'),
+                (string) $request->request->get('subject', ''),
+                (string) $request->request->get('title', ''),
+                (string) $request->request->get('message', '')
             );
-            
+
             // Notify admin that newsletter has been sent
             $this->addFlash('success', 'Newsletter sent to all subscribers!');
         } catch (\Exception $e) {
@@ -154,15 +160,21 @@ class NewsletterController extends AbstractController
     ): RedirectResponse
     {
         $token = $request->query->get('token');
+        if (!is_string($token) || '' === $token) {
+            $this->addFlash('error', 'This token is no longer valid.');
+
+            return $this->redirectToRoute('site_home');
+        }
+
         $isUnsubscribed = $unsubscribeService->remove($token);
-    
+
         // Handle unsubscription result
         if ($isUnsubscribed) {
             $this->addFlash('success', 'Your email address has been successfully removed.');
         } else {
             $this->addFlash('error', 'This token is no longer valid.');
         }
-    
+
         return $this->redirectToRoute('site_home');
     }
 }
